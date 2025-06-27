@@ -1,3 +1,4 @@
+
 # app_config.py
 from flask import Flask
 from flask_migrate import Migrate
@@ -27,9 +28,6 @@ metadata = MetaData(naming_convention={
     "fk": "fk_%(table_name)s_%(column_0_name)s_%(referred_table_name)s",
 })
 
-db = SQLAlchemy(metadata=metadata)
-migrate = Migrate()
-
 def create_app(env="dev"):
     app = Flask(__name__)
     app.config.from_object(config_dict[env])
@@ -37,8 +35,11 @@ def create_app(env="dev"):
 
     db.init_app(app)
     migrate.init_app(app, db)
-    #api.init_app(app)
+    api.init_app(app)
 
     return app
 
-# api = Api()
+db = SQLAlchemy(metadata=metadata)
+migrate = Migrate()
+api = Api()
+
